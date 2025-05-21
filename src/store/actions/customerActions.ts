@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://192.168.137.1:5000/api';
+const API_URL = 'http://171.244.139.41:5000/dashboard';
 
 export const getCustomer = createAsyncThunk(
   'customer/getCustomer',

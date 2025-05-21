@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://172.27.32.1:5000/dashboard';
+const API_URL = 'http://171.244.139.41:5000/dashboard';
 
 export const accessToken = createAsyncThunk(
   'auth/accessToken',
