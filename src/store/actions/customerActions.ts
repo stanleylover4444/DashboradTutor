@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://171.244.139.41:5000/api';
-
+//const API_URL = 'http://171.244.139.41:5000/api';
+const API_URL = 'https://sl1-server.io.vn/api';
 export const getCustomer = createAsyncThunk(
   'customer/getCustomer',
   async (_, { rejectWithValue }) => {
