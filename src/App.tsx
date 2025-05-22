@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate, Navigate, Outlet } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from './store';
 import Loader from './common/Loader';
@@ -28,7 +28,6 @@ function App() {
     }
   }, [dispatch]);
 
-
   useEffect(() => {
     if (user === null || user === undefined) {
       navigate('/auth/signin', { replace: true });
@@ -45,7 +44,7 @@ function App() {
           <Route path="managers" element={<StaffManagerView />} />
           <Route path="customers" element={<CustomerManagerView/>} />
           <Route path="users" element={<UserManagerView />} />
-           <Route path="appointment" element={<AppointmentManagerView />} />
+          <Route path="appointment" element={<AppointmentManagerView />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Route>
