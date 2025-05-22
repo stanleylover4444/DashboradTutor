@@ -84,6 +84,8 @@ const TutorManagerView: React.FC = () => {
   const [tutorData, setTutorData] = useState<Tutor[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedTutor, setSelectedTutor] = useState<Tutor | null>(null);
 
   const [editData, setEditData] = useState({
     username: '',
@@ -111,7 +113,6 @@ const TutorManagerView: React.FC = () => {
     dispatch(getTutor())
       .unwrap()
       .then((data: Tutor[]) => {
-   
         setTutorData(data);
       })
       .catch((error: any) => {
@@ -171,32 +172,10 @@ const TutorManagerView: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  // const handleSave = () => {
-  //   if (editingId) {
-  //     // dispatch(updateTutor({ tutorId: editingId, payload: editData }))
-  //     //   .unwrap()
-  //     //   .then(() => {});
-  //   } else {
-  //     dispatch(createTutor(editData))
-  //       .unwrap()
-  //       .then(() => {});
-  //   }
-  //   setIsModalOpen(false);
-  // };
-
-  const handleSubjectChange = (subject: string) => {
-    const updatedSubjects = [...editData.subjects];
-    if (updatedSubjects.includes(subject)) {
-      const index = updatedSubjects.indexOf(subject);
-      updatedSubjects.splice(index, 1);
-    } else {
-      updatedSubjects.push(subject);
-    }
-    setEditData({ ...editData, subjects: updatedSubjects });
+  const handleViewDetails = (tutor: Tutor) => {
+    setSelectedTutor(tutor);
+    setIsDetailModalOpen(true);
   };
-
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedTutor, setSelectedTutor] = useState<Tutor | null>(null);
 
   const handleToggleActive = (tutor: Tutor) => {
     // Here you would dispatch an action to update the tutor's active status
@@ -214,9 +193,15 @@ const TutorManagerView: React.FC = () => {
     console.log("Toggle active status for tutor:", tutor._id);
   };
 
-  const handleViewDetails = (tutor: Tutor) => {
-    setSelectedTutor(tutor);
-    setIsDetailModalOpen(true);
+  const handleSubjectChange = (subject: string) => {
+    const updatedSubjects = [...editData.subjects];
+    if (updatedSubjects.includes(subject)) {
+      const index = updatedSubjects.indexOf(subject);
+      updatedSubjects.splice(index, 1);
+    } else {
+      updatedSubjects.push(subject);
+    }
+    setEditData({ ...editData, subjects: updatedSubjects });
   };
 
   return (
@@ -226,7 +211,12 @@ const TutorManagerView: React.FC = () => {
         <h4 className="text-xl font-semibold text-black dark:text-white">
           Quản lý Gia Sư
         </h4>
-    
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          onClick={handleAddNew}
+        >
+          Thêm Gia Sư
+        </button>
       </div>
 
       {/* Tutor Table */}
@@ -234,14 +224,14 @@ const TutorManagerView: React.FC = () => {
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-gray-2 dark:bg-meta-4">
-              <th className="p-3 xl:p-5 font-medium uppercase text-left">ID</th>
-              <th className="p-3 xl:p-5 font-medium uppercase text-left">Họ và tên</th>
-              <th className="p-3 xl:p-5 font-medium uppercase text-left">Số điện thoại</th>
-              <th className="p-3 xl:p-5 font-medium uppercase text-left">Giới tính</th>
-              <th className="p-3 xl:p-5 font-medium uppercase text-left">Trình độ</th>
-              <th className="p-3 xl:p-5 font-medium uppercase text-left">Khu vực</th>
-              <th className="p-3 xl:p-5 font-medium uppercase text-left">Trạng thái</th>
-              <th className="p-3 xl:p-5 font-medium uppercase text-left">Thao tác</th>
+              <th className="p-3 xl:p-5 font-medium uppercase text-sm text-left">ID</th>
+              <th className="p-3 xl:p-5 font-medium uppercase text-sm text-left">Họ và tên</th>
+              <th className="p-3 xl:p-5 font-medium uppercase text-sm text-left">Số điện thoại</th>
+              <th className="p-3 xl:p-5 font-medium uppercase text-sm text-left">Giới tính</th>
+              <th className="p-3 xl:p-5 font-medium uppercase text-sm text-left">Trình độ</th>
+              <th className="p-3 xl:p-5 font-medium uppercase text-sm text-left">Khu vực</th>
+              <th className="p-3 xl:p-5 font-medium uppercase text-sm text-left">Trạng thái</th>
+              <th className="p-3 xl:p-5 font-medium uppercase text-sm text-left">Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -250,30 +240,25 @@ const TutorManagerView: React.FC = () => {
                 key={tutor._id}
                 className="border-b border-stroke dark:border-strokedark"
               >
-                <td className="p-3 xl:p-5 truncate">{tutor._id.substring(0, 8)}...</td>
-                <td className="p-3 xl:p-5">{tutor.fullName}</td>
+                <td className="p-3 xl:p-5 truncate text-sm">{tutor._id.slice(-6)}</td>
+                <td className="p-3 xl:p-5 truncate">{tutor.fullName}</td>
                 <td className="p-3 xl:p-5">{tutor.phoneNumber}</td>
                 <td className="p-3 xl:p-5">{getGender(tutor.gender)}</td>
                 <td className="p-3 xl:p-5">{translateEducation(tutor.educationLevel)}</td>
                 <td className="p-3 xl:p-5">{translateArea(tutor.area)}</td>
                 <td className="p-3 xl:p-5">
-                  <span className={`px-2 py-1 rounded text-white ${tutor.active ? 'bg-green-500' : 'bg-red-500'}`}>
+                  <span className={`px-2 py-1 rounded text-xs ${tutor.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                     {tutor.active ? 'Hoạt động' : 'Không hoạt động'}
                   </span>
                 </td>
                 <td className="p-3 xl:p-5 flex">
                   <button
-                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
+                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2 text-sm hover:bg-blue-600"
                     onClick={() => handleViewDetails(tutor)}
                   >
                     Chi tiết
                   </button>
-                  {/* <button
-                    className={`${tutor.active ? 'bg-orange-500' : 'bg-green-500'} text-white px-2 py-1 rounded mr-2`}
-                    onClick={() => handleToggleActive(tutor)}
-                  >
-                    {tutor.active ? 'Tạm dừng' : 'Kích hoạt'}
-                  </button> */}
+               
                 </td>
               </tr>
             ))}
@@ -281,11 +266,10 @@ const TutorManagerView: React.FC = () => {
         </table>
       </div>
 
-    
+      {/* Chi tiết Modal */}
       {isDetailModalOpen && selectedTutor && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end items-center z-50 p-4 mt-10 mr-30">
-    <div className="bg-white dark:bg-boxdark p-6 rounded-lg shadow-lg w-full max-w-5xl border dark:border-strokedark overflow-y-auto max-h-[80vh]">
-      {/* Nội dung giữ nguyên */}
+          <div className="bg-white dark:bg-boxdark p-6 rounded-lg shadow-lg w-full max-w-5xl border dark:border-strokedark overflow-y-auto max-h-[80vh]">
             <div className="flex justify-between items-center mb-4 border-b pb-3">
               <h3 className="text-lg font-semibold text-black dark:text-white">
                 Thông tin chi tiết Gia Sư: {selectedTutor.fullName}
@@ -431,8 +415,9 @@ const TutorManagerView: React.FC = () => {
             </div>
 
             <div className="flex justify-end mt-4 pt-3 border-t">
+        
               <button
-                className="bg-gray-500 text-white px-4 py-2 rounded"
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
                 onClick={() => setIsDetailModalOpen(false)}
               >
                 Đóng
@@ -441,8 +426,6 @@ const TutorManagerView: React.FC = () => {
           </div>
         </div>
       )}
-
-     
     </div>
   );
 };

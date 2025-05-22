@@ -52,22 +52,6 @@ const CustomerManagerView: React.FC = () => {
       });
   }, [dispatch]);
 
-  const handleEdit = (customer: Customer) => {
-    setEditingId(customer._id);
-    setEditData({
-      username: customer.username,
-      fullName: customer.fullName,
-      phoneNumber: customer.phoneNumber,
-      email: customer.email || '',
-      typeCustomer: customer.typeCustomer,
-      active: customer.active,
-      area: customer.area || '',
-      gender: customer.gender || '',
-      dob: customer.dob || '',
-      password: '', // Không lấy mật khẩu từ dữ liệu hiện có
-    });
-    setIsModalOpen(true);
-  };
 
   const handleAddNew = () => {
     setEditingId(null);
@@ -152,12 +136,7 @@ const CustomerManagerView: React.FC = () => {
         <h4 className="text-xl font-semibold text-black dark:text-white">
           Quản lý Khách Hàng
         </h4>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          onClick={handleAddNew}
-        >
-          Thêm Khách Hàng
-        </button>
+      
       </div>
 
       {/* Customer Table */}

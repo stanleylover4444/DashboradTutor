@@ -6,6 +6,6 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
-    allowedHosts: ['sl1-server.io.vn', 'localhost'],
+    allowedHosts: ['sl1-server.io.vn/admin', 'localhost'],
   },
 })

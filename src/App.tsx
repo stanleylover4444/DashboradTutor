@@ -5,13 +5,12 @@ import { AppDispatch, RootState } from './store';
 import Loader from './common/Loader';
 import SignIn from './pages/Authentication/SignIn';
 import DefaultLayout from './layout/DefaultLayout';
-import ECommerce from './pages/Dashboard/ECommerce';
 import Settings from './pages/Settings';
 import StaffManagerView from './pages/Dashboard/StaffManagerView';
 import { accessToken } from './store/actions/authActions';
-import StaffCustomerView from './pages/Dashboard/CustomerManagerView';
 import CustomerManagerView from './pages/Dashboard/CustomerManagerView';
 import UserManagerView from './pages/Dashboard/UserManagerView';
+import AppointmentManagerView from './pages/Dashboard/AppointmentManagerView';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -42,10 +41,11 @@ function App() {
     <Routes>
       {user ? (
         <Route path="/" element={<DefaultLayout />}>
-          <Route index element={<ECommerce />} />
+          <Route index element={<StaffManagerView />} />
           <Route path="managers" element={<StaffManagerView />} />
           <Route path="customers" element={<CustomerManagerView/>} />
           <Route path="users" element={<UserManagerView />} />
+           <Route path="appointment" element={<AppointmentManagerView />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Route>

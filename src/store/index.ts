@@ -3,6 +3,7 @@ import authReducer from './slices/authSlice';
 import staffReducer from './slices/staffSlice';
 import customerReducer from './slices/customerSlice';
 import tutorReducer from './slices/tutorSlice';
+import appointmentReducer from './slices/appointmentSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     staff: staffReducer,
     customer: customerReducer,
     tutor : tutorReducer,
+    appointment : appointmentReducer,
   },
 });
 

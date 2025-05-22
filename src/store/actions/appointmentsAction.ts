@@ -3,16 +3,16 @@ import axios from 'axios';
 
 const API_URL = 'http://171.244.139.41:5000/api';
 
-export const getCustomer = createAsyncThunk(
-  'customer/getCustomer',
+export const getAppointment = createAsyncThunk(
+  'appointment/getAppointment',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/customers/`, {
+      const response = await axios.get(`${API_URL}/appointments/`, {
       });
-      console.log('Lấy thông tin tất cả khách hàng thành công', response.data);
+      console.log('Lấy thông tin tất cả appointment thành công', response.data);
       return response.data;
     } catch (error: any) {
-      let errorMessage = 'Lấy thông tin k hách hàng thất bại!';
+      let errorMessage = 'Lấy thông tin appointment thất bại!';
       if (error.response) {
         errorMessage = error.response.data?.error || errorMessage;
       } else if (error.request) {
